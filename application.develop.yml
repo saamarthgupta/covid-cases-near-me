@@ -1,10 +1,5 @@
 mongoDatabase:
-  host:  book.db
-  port:
-  dbname:
-  username:
-  password:
-  migration: true
+
 
 redis:
 
