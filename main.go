@@ -27,7 +27,7 @@ func main() {
 	// Server
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "11111" // Default port if not specified
+		port = "1111" // Default port if not specified
 	}
 	e.Logger.Fatal(e.Start(":" + port))
 }

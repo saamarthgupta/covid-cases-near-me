@@ -54,7 +54,7 @@ func (cacheManager *CacheManager) getCasesFromCache(place string, cacheKeyPrefix
 			if errorr != nil {
 				log.Println(err)
 			}
-			err1 = cacheManager.redisObject.Set(cacheKeyPrefix+strings.ReplaceAll(place, " ", ""), string(jsonData), constants.CACHE_TTL)
+			_ = cacheManager.redisObject.Set(cacheKeyPrefix+strings.ReplaceAll(place, " ", ""), string(jsonData), constants.CACHE_TTL)
 		}
 	} else {
 		jsonErr := json.Unmarshal([]byte(rawData), &placeData)
