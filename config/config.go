@@ -3,8 +3,9 @@ package config
 import (
 	"flag"
 	"fmt"
-	"github.com/jinzhu/configor"
 	"os"
+
+	"github.com/jinzhu/configor"
 )
 
 type Config struct {

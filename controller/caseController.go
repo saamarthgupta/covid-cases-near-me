@@ -25,7 +25,6 @@ const (
 func (controller *CaseController) GetCovidCasesByLocation(c echo.Context) error {
 	latitude := c.QueryParam(constants.LATITUDE)
 	longitude := c.QueryParam(constants.LONGITUDE)
-	print(longitude, latitude)
 	userCoordinates := model.UserCoordinates{Latitude: latitude, Longitude: longitude}
 	if len(latitude) == 0 || len(longitude) == 0 {
 		return c.JSON(http.StatusNotFound, nil)
