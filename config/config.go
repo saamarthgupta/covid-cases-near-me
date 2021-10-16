@@ -55,7 +55,7 @@ const (
 // Load reads the settings written to the yml file
 func Load() (*Config, string) {
 	var env *string
-	if value := os.Getenv("WEB_APP_ENV"); value != "" {
+	if value := os.Getenv("MY_ENV"); value != "" {
 		env = &value
 	} else {
 		env = flag.String("env", "develop", "To switch configurations.")
