@@ -1,0 +1,29 @@
+mongoDatabase:
+  host:  book.db
+  port:
+  dbname:
+  username:
+  password:
+  migration: true
+
+redis:
+
+
+log:
+  request_log_format: ${remote_ip} ${account_name} ${uri} ${method} ${status}
+
+staticcontents:
+  path: ./public/
+
+security:
+  auth_path:
+    - /api/.*
+  exclude_path:
+    - /swagger/.*
+    - /api/auth/login$
+    - /api/auth/logout$
+    - /api/health$
+  user_path:
+    - /api/.*
+  admin_path:
+    - /api/.*
