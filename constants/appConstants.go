@@ -9,5 +9,8 @@ const (
 	DATABASE_NAME                  = "covid_cases"
 	COUNTRY_COLLECTION             = "country_data"
 	STATE_COLLECTION               = "state_data"
+	REDIS_ADDRESS                  = "127.0.0.1:6379"
 	CACHE_TTL                      = 1800
+	STATE_DATA_CACHE_KEY           = "state:data:"
+	COUNTRY_DATA_CACHE_KEY         = "country:data:"
 )

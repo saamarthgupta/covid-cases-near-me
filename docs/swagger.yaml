@@ -1,0 +1,81 @@
+basePath: /v1
+definitions:
+  model.CovidCasesInLocation:
+    properties:
+      activeCases:
+        type: integer
+      lastUpdated:
+        type: string
+      location:
+        type: string
+    type: object
+  model.CovidCasesResponse:
+    properties:
+      country:
+        $ref: '#/definitions/model.CovidCasesInLocation'
+      state:
+        $ref: '#/definitions/model.CovidCasesInLocation'
+    type: object
+host: covidCases.swagger.io
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a covid case tracking server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /covidCases:
+    get:
+      consumes:
+      - application/json
+      description: Get the active covid cases in state and Country.
+      parameters:
+      - description: Latitude
+        in: query
+        name: latitude
+        required: true
+        type: string
+      - description: Longitude
+        in: query
+        name: longitude
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Active Covid cases in State and Country
+          schema:
+            $ref: '#/definitions/model.CovidCasesResponse'
+        "404":
+          description: Unable to Fetch Data for Given Latitude and Longitudes
+          schema:
+            type: string
+      summary: Get the active covid cases in state and Country.
+      tags:
+      - Covid Cases
+    post:
+      consumes:
+      - application/json
+      description: fetch Covid Case Data from API and store in DB.
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Resource Not Found
+          schema:
+            type: string
+      summary: fetch Covid Case Data from API and store in DB.
+      tags:
+      - Covid Cases
+swagger: "2.0"
