@@ -5,11 +5,12 @@ import (
 	"covid_cases_near_me/controller"
 	"covid_cases_near_me/repository"
 	"covid_cases_near_me/service"
+
 	"github.com/labstack/echo/v4"
 	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
-func INIT(e *echo.Echo)  {
+func INIT(e *echo.Echo) {
 	conf, env := config.Load()
 	caseRepository := repository.NewCaseRepository(conf)
 	caseService := service.NewCaseService(caseRepository)

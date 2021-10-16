@@ -55,12 +55,12 @@ func reverseGeoCode(coordinates model.UserCoordinates) ReverseGeoCodingResponse 
 
 	body, readErr := ioutil.ReadAll(response.Body)
 	if readErr != nil {
-		log.Fatal(readErr)
+		log.Println(readErr)
 	}
 
 	jsonErr := json.Unmarshal(body, &reverseGeoCodingResponse)
 	if readErr != nil {
-		log.Fatal(jsonErr)
+		log.Println(jsonErr)
 	}
 	return reverseGeoCodingResponse
 }

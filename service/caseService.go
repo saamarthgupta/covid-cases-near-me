@@ -13,16 +13,21 @@ import (
 
 type CaseService struct {
 	caseRepository *repository.CaseRepository
+	cacheManager   *CacheManager
 }
 
 func NewCaseService(repository *repository.CaseRepository) *CaseService {
-	return &CaseService{caseRepository: repository}
+	return &CaseService{caseRepository: repository, cacheManager: NewCacheManager(repository)}
 }
 
 func (caseService *CaseService) GetCasesByLocation(coordinates model.UserCoordinates) (model.CovidCasesResponse, error) {
-	state, country := GetStateAndCountry(coordinates)
-	print(state, country)
-	return model.CovidCasesResponse{}, nil
+	country, state := GetStateAndCountry(coordinates)
+	covidCasesNearUser, err := caseService.cacheManager.GetCovidCasesByLocation(state, country)
+	if err != nil {
+		log.Println("Error Processing Request")
+		return model.CovidCasesResponse{}, err
+	}
+	return covidCasesNearUser, nil
 }
 
 func (caseService *CaseService) PullCaseDataFromServer() error {
@@ -39,14 +44,24 @@ func (caseService *CaseService) PullCaseDataFromServer() error {
 	if errCountry != nil {
 		return errCountry
 	}
-	countryCaseData := caseDataForCountry[len(caseDataForCountry)-1]
-	caseService.caseRepository.Save(countryCaseData, stateVsCaseDataMap)
+	countryCaseData := model.CaseData{}
+	if len(caseDataForCountry) > 0 {
+		countryCaseData = caseDataForCountry[len(caseDataForCountry)-1]
+	}
+
+	err = caseService.caseRepository.Save(countryCaseData, stateVsCaseDataMap)
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
 func getCaseDataFromApi(prefixUrl string) ([]model.CaseData, error) {
 	currentTime := time.Now().UTC().Add(time.Duration(-1) * time.Hour)
-	startTime := time.Date(currentTime.Year(), currentTime.Month(), currentTime.Day(), 0, 0, 0, 0, currentTime.Location())
+	currentTimeForStart := time.Now().UTC().Add(time.Duration(-24) * time.Hour)
+	startTime := time.Date(currentTimeForStart.Year(), currentTimeForStart.Month(), currentTimeForStart.Day(), 0, 0, 0, 0, currentTimeForStart.Location())
 	apiSuffix := "from=" + startTime.Format(time.RFC3339) + "&to=" + currentTime.Format(time.RFC3339)
 	apiUrlForStateData := prefixUrl + apiSuffix
 	response, error := http.Get(apiUrlForStateData)
@@ -57,14 +72,14 @@ func getCaseDataFromApi(prefixUrl string) ([]model.CaseData, error) {
 
 	body, readErr := ioutil.ReadAll(response.Body)
 	if readErr != nil {
-		log.Fatal(readErr)
+		log.Println(readErr)
 	}
 
 	caseData := []model.CaseData{}
 	jsonErr := json.Unmarshal(body, &caseData)
 
 	if readErr != nil {
-		log.Fatal(jsonErr)
+		log.Println(jsonErr)
 	}
 	return caseData, error
 }

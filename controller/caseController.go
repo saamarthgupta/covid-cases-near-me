@@ -27,12 +27,12 @@ func (controller *CaseController) GetCovidCasesByLocation(c echo.Context) error 
 	longitude := c.QueryParam(constants.LONGITUDE)
 	userCoordinates := model.UserCoordinates{Latitude: latitude, Longitude: longitude}
 	if len(latitude) == 0 || len(longitude) == 0 {
-		return c.JSON(http.StatusNotFound, nil)
+		return c.JSON(http.StatusNotFound, "Latitude and Longitudes are missing")
 	}
 	// Call Service to fetch Response
 	response, err := controller.service.GetCasesByLocation(userCoordinates)
 	if err != nil {
-		return c.JSON(http.StatusNotFound, nil)
+		return c.JSON(http.StatusNotFound, "Unable to Fetch Data for Given Latitude and Longitudes")
 	}
 	return c.JSON(http.StatusOK, response)
 }
