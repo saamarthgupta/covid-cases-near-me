@@ -2,6 +2,9 @@ package main
 
 import (
 	"covid_cases_near_me/router"
+
+	_ "covid_cases_near_me/docs"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -20,7 +23,6 @@ func main() {
 	}))
 
 	router.INIT(e)
-
 	// Server
 	e.Logger.Fatal(e.Start(":11111"))
 }
