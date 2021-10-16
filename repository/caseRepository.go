@@ -67,7 +67,7 @@ func getMongoContext() (context.Context, context.CancelFunc) {
 }
 
 func getMongoClient(ctx context.Context) *mongo.Client {
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://127.0.0.1:27017"))
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb+srv://root:1234@covid-cases.5kaaz.mongodb.net/covid_cases?retryWrites=true&w=majority"))
 	if err != nil {
 		log.Fatal("Unable to Connect to mongo!!")
 		return nil
