@@ -17,8 +17,9 @@ func NewRedisObject() *RedisCache {
 
 func GetRedisClient() *redis.Client {
 	rdb := redis.NewClient(&redis.Options{
-		Addr: constants.REDIS_ADDRESS,
-		DB:   0, // use default DB
+		Addr:     constants.REDIS_ADDRESS,
+		Password: "1234",
+		DB:       0, // use default DB
 	})
 	return rdb
 }
