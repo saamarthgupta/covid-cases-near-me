@@ -2,6 +2,7 @@ package main
 
 import (
 	"covid_cases_near_me/router"
+	"os"
 
 	_ "covid_cases_near_me/docs"
 
@@ -24,5 +25,9 @@ func main() {
 
 	router.INIT(e)
 	// Server
-	e.Logger.Fatal(e.Start(":11111"))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "11111" // Default port if not specified
+	}
+	e.Logger.Fatal(e.Start(":" + port))
 }
