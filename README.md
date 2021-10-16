@@ -10,3 +10,9 @@ Assumptions Related to Source:
 
 Disclaimer:
 This is just a prototype working project, there is no guarantee that the API used to fetch covid cases would be accurate.
+
+Major Libraries Used:
+Redis -> go-redis
+mongoDB -> mongo-go-driver
+Framework -> echo
+Swagger -> swaggo
