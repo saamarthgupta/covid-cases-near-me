@@ -16,3 +16,6 @@ Redis -> go-redis
 mongoDB -> mongo-go-driver
 Framework -> echo
 Swagger -> swaggo
+
+Database Constraints:
+There exists unique key constraints on the basis of [country,date] for country collection and [province,date] for state collection.
