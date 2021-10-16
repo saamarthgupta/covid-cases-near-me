@@ -1,6 +1,6 @@
 module covid_cases_near_me
 
-// +heroku goVersion go1.11
+// +heroku goVersion go1.17
 go 1.17
 
 require (
